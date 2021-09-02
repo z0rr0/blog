@@ -118,3 +118,16 @@ if err != ErrStopIteration {
 ```
 
 Mutex is required here, because concurrent function calls can update `i` in parallel.
+
+```
+goos: darwin
+goarch: amd64
+pkg: github.com/z0rr0/blog/posts/go-generators/example
+cpu: Intel(R) Core(TM) i5-1038NG7 CPU @ 2.00GHz
+BenchmarkChanGenerator-8               5596 204634 ns/op  145 B/op  2 allocs/op
+BenchmarkChanChunk-8                  10000 107430 ns/op  161 B/op  2 allocs/op
+BenchmarkFuncGenerator-8              66406  17380 ns/op   72 B/op  4 allocs/op
+BenchmarkChunkGenerator-8            114096  10245 ns/op   88 B/op  4 allocs/op
+BenchmarkStructGenerator_Next-8       65679  17409 ns/op   64 B/op  1 allocs/op
+BenchmarkStructGenerator_NextChunk-8 126115   9233 ns/op   64 B/op  1 allocs/op
+```
