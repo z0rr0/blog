@@ -2,8 +2,7 @@
 
 > **Disclaimer**
 > 
-> It is not an example for production code.
-> 
+> This is not an example for production code.<br>
 > It is bad practice to move patterns from known programming language to new one. But sometimes you can adapt them.
 
 ---
@@ -11,6 +10,7 @@
 Many programming languages have a special type of collection called *generator*. It’s lazy structure, that works with one item in one time. So it is more efficiency by memory but you can iterate by objects only once.
 
 *Python example*
+
 ```python
 def gen(start: int, stop: int, step: int) -> Generator[int, None, None]:
     x = start
@@ -26,6 +26,7 @@ print(list(g))
 # [5, 8, 11, 14, 17]
 
 # second call returns empty list
+# because there is no history of returned data
 print(list(g))
 # []
 ```
@@ -34,7 +35,7 @@ Go language doesn't have generators in the standard library. Let’s write three
 
 ###  Channel generator
 
-Go channel is a nice mechanism for concurrency communication. One goroutine writes (generate) data to channel and another reads this value. Every time we work only with one item.
+Go channel is a nice mechanism for concurrency communication. One goroutine sends (generate) data to a channel and another receives the value. Every time we work only with one item.
 
 ```go
 import "fmt"
@@ -64,7 +65,7 @@ for j := range g {
 }
 ```
 
-Many consumers can safety read generator’s data from channel, but it should be slowly due to internal locks, we will check this later.
+Many consumers can safety read generator’s data from a channel, but it should be slowly due to internal locks, we will check this later.
 
 ### Function generator
 
@@ -117,17 +118,72 @@ if err != ErrStopIteration {
 }
 ```
 
-Mutex is required here, because concurrent function calls can update `i` in parallel.
+Mutex is required here, because concurrent function calls can update `i` in several goroutines.
+
+### Struct generator
+
+The latest generator example is structure. It has a current value and stores additional parameters. Also our structure must have mutex like an example before, because concurrent reading should be safety.
+
+```go
+// StructGenerator is a struct generator.
+type StructGenerator struct {
+	sync.Mutex
+	stop  int
+	step  int
+	value int
+}
+
+// NewStructGenerator returns a new struct generator.
+func NewStructGenerator(start, stop, step int) (*StructGenerator, error) {
+	if step < 1 {
+		return nil, ErrOffsetIteration
+	}
+	return &StructGenerator{stop: stop, step: step, value: start}, nil
+}
+
+// Next returns a new generation value and flag that it is not the end.
+func (g *StructGenerator) Next() (int, bool) {
+	defer func() {
+		g.Lock()
+		g.value += g.step
+		g.Unlock()
+	}()
+	return g.value, g.value < g.stop
+}
+
+// how to use it (without error handling)
+g, _ := NewStructGenerator(5, 20, 3)
+for v, ok := g.Next(); ok; v, ok = g.Next() {
+	fmt.Println(v)
+}
+```
+
+It’s very easy way, it’s interesting to compare all three methods by speed and memory usage.
+
+## Benchmarks 
+
+I wrote simple [example](https://github.com/z0rr0/blog/blob/main/posts/go-generators/example/example_test.go) using Go benchmark mechanism `testing.B` and  got results:
 
 ```
 goos: darwin
 goarch: amd64
 pkg: github.com/z0rr0/blog/posts/go-generators/example
 cpu: Intel(R) Core(TM) i5-1038NG7 CPU @ 2.00GHz
-BenchmarkChanGenerator-8               5596 204634 ns/op  145 B/op  2 allocs/op
-BenchmarkChanChunk-8                  10000 107430 ns/op  161 B/op  2 allocs/op
-BenchmarkFuncGenerator-8              66406  17380 ns/op   72 B/op  4 allocs/op
-BenchmarkChunkGenerator-8            114096  10245 ns/op   88 B/op  4 allocs/op
-BenchmarkStructGenerator_Next-8       65679  17409 ns/op   64 B/op  1 allocs/op
-BenchmarkStructGenerator_NextChunk-8 126115   9233 ns/op   64 B/op  1 allocs/op
+BenchmarkChanGenerator-8         5772 205862 ns/op 145 B/op 2 allocs/op
+BenchmarkFuncGenerator-8        66204  17777 ns/op  72 B/op 4 allocs/op
+BenchmarkStructGenerator_Next-8 65004  18028 ns/op  64 B/op 1 allocs/op
 ```
+
+The histograms show results more clearly
+
+![time_usage.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1630776197311/GkDOTLWS7.png)
+
+And comparing by memory usage 
+
+![memory_usage.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1630776228708/qTeOSuC3P.png)
+
+## Conclusion
+
+There are different ways to implement generators in Go. Using channels is not the best idea. Of course we need to control  concurrent access, but standard mutex can do it better.
+
+I also wrote examples for chunk generators then we need to split a slice into pieces. For example, we want to convert `[1, 2, 3,… 10]` to 5 chunks by 2 items `[1, 2], [3, 4], … [9, 10]`. The same ways were used for it. You can find it in repo [go-generators/example](https://github.com/z0rr0/blog/tree/main/posts/go-generators/example)
