@@ -1,4 +1,4 @@
-# Generators in Go
+# Generators in Go #blog
 
 > **Disclaimer**
 > 

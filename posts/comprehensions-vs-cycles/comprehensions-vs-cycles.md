@@ -1,4 +1,4 @@
-# Python comprehensions vs cycles
+# Python comprehensions vs cycles #blog
 
 Almost all python programmers know that there are list comprehensions [PEP 202](https://www.python.org/dev/peps/pep-0202/).
 
