@@ -2,9 +2,10 @@
 
 ## Немного истории
 
-## Как десятичные числа храняться в компьютерах
+### Как десятичные числа хранятся в компьютерах
 
-## Как хранить деньги
+
+## Как же хранить деньги
 
 ## Типичные ошибки с деньгами
 
@@ -38,7 +39,10 @@ fmt.Printf("%f", float32(16777217.0)) // 16777216.000000
 ## Ссылки
 
 
-1. [github.com/shopspring/decimal](https://github.com/shopspring/decimal)
-2. Журал "Хакер" статья ["Всё, точка, приплыли! Учимся работать с числами с плавающей точкой и разрабатываем альтернативу с фиксированной точностью десятичной дроби"](https://xakep.ru/2015/01/01/vsyo-tochka-priplyli/).
-3. Генри С. Уоррен ["Алгоритмические трюки для программистов"](http://www.williamspublishing.com/Books/978-5-8459-1838-3.html), 2-е издание (Henry Warren ["Hacker's Delight, 2nd Edition"](https://www.amazon.com/Hackers-Delight-2nd-Henry-Warren/dp/0321842685))
-4. YouTube ["Как работают числа с плавающей точкой"](https://youtu.be/U0U8Ddx4TgE)
+1. [754-2019 - IEEE Standard for Floating-Point Arithmetic](https://ieeexplore.ieee.org/document/8766229)
+2. [The IEEE 754 Format](http://mathcenter.oxford.emory.edu/site/cs170/ieee754/)
+3. [Single-precision floating-point format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format)
+4. Журал "Хакер" статья ["Всё, точка, приплыли! Учимся работать с числами с плавающей точкой и разрабатываем альтернативу с фиксированной точностью десятичной дроби"](https://xakep.ru/2015/01/01/vsyo-tochka-priplyli/). [Версия](https://habr.com/ru/company/xakep/blog/257897/) для Хабра.
+5. Генри С. Уоррен ["Алгоритмические трюки для программистов"](http://www.williamspublishing.com/Books/978-5-8459-1838-3.html), 2-е издание (Henry Warren ["Hacker's Delight, 2nd Edition"](https://www.amazon.com/Hackers-Delight-2nd-Henry-Warren/dp/0321842685))
+6. YouTube ["Как работают числа с плавающей точкой"](https://www.youtube.com/watch?v=U0U8Ddx4TgE)
+7. [github.com/shopspring/decimal](https://github.com/shopspring/decimal)
