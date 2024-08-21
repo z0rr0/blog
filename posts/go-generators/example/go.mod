@@ -1,3 +1,3 @@
-module github.com/z0rr0/blog/posts/go-generators/example
+module go-generators
 
 go 1.16
