@@ -1,8 +1,6 @@
-# Generators in Go v2 #blog
+# Iterators in Go v2 #blog
 
 This post is an update of my old version [Generators in Go](https://z0rr0.blog/go-generators) post. On August 13th, the Go 1.23 release introduced a new feature: [iterators have been added](https://go.dev/doc/go1.23#iterators) to the language. Therefore, I would like to compare their convenience and performance with my previous implementations.
-
-GPT
 
 I am intentionally skipping basic error checks, such as handling a negative step, just to keep the code concise. However, please do not omit these checks in production versions.
 
