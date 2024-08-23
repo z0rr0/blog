@@ -8,7 +8,7 @@ const (
 )
 
 // how to run
-// go test -bench=. -benchmem go-generators-v2
+// go test -bench=. -benchmem iterators-in-go
 
 func BenchmarkChanIterator(b *testing.B) {
 	for i := 0; i < b.N; i++ {

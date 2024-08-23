@@ -2,4 +2,4 @@ go 1.23
 
 use ./posts/integer-sign/examples/go
 use ./posts/go-generators/example
-use ./posts/go-generators-v2/example
+use ./posts/iterators-in-go/example
