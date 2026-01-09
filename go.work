@@ -1,5 +1,7 @@
-go 1.23
+go 1.25
 
-use ./posts/integer-sign/examples/go
-use ./posts/go-generators/example
-use ./posts/iterators-in-go/example
+use (
+	./posts/unsigned-integers/examples/go
+	./posts/go-generators/example
+	./posts/iterators-in-go/example
+)

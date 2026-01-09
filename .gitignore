@@ -112,3 +112,4 @@ venv.bak/
 
 # Go workspace file
 # go.work
+clickhouse
