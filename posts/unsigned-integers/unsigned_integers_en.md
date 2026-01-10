@@ -5,7 +5,7 @@ This post is an English translation of my original article, first published at [
 ## Why Do We Need Them?
 
 This is a short discussion about unsigned integers in programming.
-From a mathematical point of view, they may look a bit strange — why do we even need such “truncated” numbers?
+From a mathematical point of view, they may look a bit strange - why do we even need such “truncated” numbers?
 
 Nevertheless, there are solid reasons for their existence. Here are the main ones:
 
